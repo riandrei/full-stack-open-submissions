@@ -3,13 +3,20 @@ import { useState } from 'react';
 import Person from './Person';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas' }]);
+  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: `040 - 1234567` }]);
   const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
 
   const handleNameChange = (e) => {
     const newValue = e.target.value;
 
     setNewName(newValue);
+  };
+
+  const handleNumberChange = (e) => {
+    const newValue = e.target.value;
+
+    setNewNumber(newValue);
   };
 
   const handleFormSubmit = (e) => {
@@ -24,7 +31,8 @@ const App = () => {
 
     setPersons(
       persons.concat({
-        name: newName
+        name: newName,
+        number: newNumber
       })
     );
     setNewName('');
@@ -36,6 +44,9 @@ const App = () => {
       <form onSubmit={handleFormSubmit}>
         <div>
           name: <input onChange={handleNameChange} value={newName} />
+        </div>
+        <div>
+          number: <input onChange={handleNumberChange} value={newNumber} />
         </div>
         <div>
           <button type="submit">add</button>
