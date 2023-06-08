@@ -1,5 +1,7 @@
 const Statistics = ({ good, neutral, bad, all }) => {
-  return (
+  return !(good || neutral || bad) ? (
+    <p>No feedback given</p>
+  ) : (
     <>
       <h1>statistics</h1>
       <p>good {good}</p>
