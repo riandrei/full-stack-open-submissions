@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-import Person from './Person';
+import Persons from './Persons';
+import PersonForm from './PersonForm';
+import SearchForm from './SearchForm';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,63 +15,21 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [searchEntry, setSearchEntry] = useState('');
 
-  const handleNameChange = (e) => {
-    const newValue = e.target.value;
-
-    setNewName(newValue);
-  };
-
-  const handleNumberChange = (e) => {
-    const newValue = e.target.value;
-
-    setNewNumber(newValue);
-  };
-
-  const handleSearchChange = (e) => {
-    const newValue = e.target.value;
-
-    setSearchEntry(newValue);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    const isExistingPerson = persons.map((person) => person.name).indexOf(newName);
-
-    if (isExistingPerson >= 0) {
-      alert(`${persons[isExistingPerson].name} is already added to the phonebook`);
-      return;
-    }
-
-    setPersons(
-      persons.concat({
-        name: newName,
-        number: newNumber
-      })
-    );
-    setNewName('');
-    setNewNumber('');
-  };
-
   return (
     <>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input onChange={handleSearchChange} value={searchEntry} />
-      </div>
-      <form onSubmit={handleFormSubmit}>
-        <div>
-          name: <input onChange={handleNameChange} value={newName} />
-        </div>
-        <div>
-          number: <input onChange={handleNumberChange} value={newNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <SearchForm searchEntry={searchEntry} setSearchEntry={setSearchEntry} />
+      <h2>add a new</h2>
+      <PersonForm
+        persons={persons}
+        newName={newName}
+        newNumber={newNumber}
+        setPersons={setPersons}
+        setNewName={setNewName}
+        setNewNumber={setNewNumber}
+      />
       <h2>Numbers</h2>
-      <Person persons={persons} searchEntry={searchEntry} />
+      <Persons persons={persons} searchEntry={searchEntry} />
     </>
   );
 };
