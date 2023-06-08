@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+import Anecdote from './Anecdote';
+import Button from './Button';
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -12,30 +15,33 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ];
 
-  const [selected, setSelected] = useState(0);
+  const [selectedAnecdote, setselectedAnecdote] = useState(0);
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
-  console.log(selected);
+  const mostAnecdoteVotes = votes.indexOf(Math.max(...votes));
 
   const changeAnecdote = () => {
     const randomAnecdoteIndex = Math.floor(Math.random() * anecdotes.length);
 
-    setSelected(randomAnecdoteIndex);
+    setselectedAnecdote(randomAnecdoteIndex);
   };
 
-  const voteAnecdote = (selected) => {
+  const voteAnecdote = (selectedAnecdote) => {
     const tempVotes = [...votes];
-    tempVotes[selected] += 1;
+    tempVotes[selectedAnecdote] += 1;
 
     setVotes(tempVotes);
   };
 
   return (
     <>
-      <h1>{anecdotes[selected]}</h1>
-      <p>has {votes[selected]} votes</p>
-      <button onClick={changeAnecdote}>next anecdote</button>
-      <button onClick={() => voteAnecdote(selected)}>vote anecdote</button>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdotes={anecdotes} anecdoteIndex={selectedAnecdote} />
+      <p>has {votes[selectedAnecdote]} votes</p>
+      <Button handleClick={() => voteAnecdote(selectedAnecdote)} text="vote" />
+      <Button handleClick={changeAnecdote} text="next anecdote" />
+      <h1>Anecdote with most votes</h1>
+      <Anecdote anecdotes={anecdotes} anecdoteIndex={mostAnecdoteVotes} />
     </>
   );
 };
