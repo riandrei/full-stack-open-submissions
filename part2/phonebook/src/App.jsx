@@ -15,6 +15,13 @@ const App = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    const isExistingPerson = persons.map((person) => person.name).indexOf(newName);
+
+    if (isExistingPerson >= 0) {
+      alert(`${persons[isExistingPerson].name} is already added to the phonebook`);
+      return;
+    }
+
     setPersons(
       persons.concat({
         name: newName
