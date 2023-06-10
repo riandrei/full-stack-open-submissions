@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, setPersons }) => {
   const handleNameChange = (e) => {
     const newValue = e.target.value;
@@ -21,12 +23,9 @@ const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, set
       return;
     }
 
-    setPersons(
-      persons.concat({
-        name: newName,
-        number: newNumber
-      })
-    );
+    axios
+      .post('http://localhost:3001/persons', { name: newName, number: newNumber })
+      .then(({ data }) => setPersons(persons.concat(data)));
     setNewName('');
     setNewNumber('');
   };
