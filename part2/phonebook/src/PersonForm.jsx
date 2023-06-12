@@ -16,18 +16,27 @@ const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, set
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    const isExistingPerson = persons.map((person) => person.name).indexOf(newName);
+    const filteredPersons = persons.filter((person) => person.name === newName);
 
-    if (isExistingPerson >= 0) {
-      alert(`${persons[isExistingPerson].name} is already added to the phonebook`);
-      return;
+    if (filteredPersons.length > 0) {
+      const confirmMessage = `${filteredPersons[0].name} is already added to the phonebook, replace the old number with a new one?`;
+
+      if (!window.confirm(confirmMessage)) {
+        return;
+      }
+
+      phonebookServices.editPerson({ ...filteredPersons[0], number: newNumber }).then((editedPerson) => {
+        setPersons(persons.map((person) => (person.id === editedPerson.id ? editedPerson : person)));
+        setNewName('');
+        setNewNumber('');
+      });
+    } else {
+      phonebookServices.addPerson({ name: newName, number: newNumber }).then((person) => {
+        setPersons(persons.concat(person));
+        setNewName('');
+        setNewNumber('');
+      });
     }
-
-    phonebookServices.addPerson({ name: newName, number: newNumber }).then((person) => {
-      setPersons(persons.concat(person));
-      setNewName('');
-      setNewNumber('');
-    });
   };
 
   return (

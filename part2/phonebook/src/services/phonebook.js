@@ -20,4 +20,11 @@ const deletePerson = (id) => {
   return request;
 };
 
-export default { getPeople, addPerson, deletePerson };
+const editPerson = (editedPerson) => {
+  console.log(editedPerson);
+  const request = axios.put(`${baseUrl}/${editedPerson.id}`, editedPerson);
+
+  return request.then((response) => response.data);
+};
+
+export default { getPeople, addPerson, deletePerson, editPerson };

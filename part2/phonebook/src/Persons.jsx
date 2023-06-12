@@ -7,6 +7,7 @@ const Persons = ({ persons, searchEntry, setPersons }) => {
 
   const handleDeleteClick = ({ id, name }) => {
     const confirmationMessage = `Delete ${name}`;
+
     if (!window.confirm(confirmationMessage)) {
       return;
     }
