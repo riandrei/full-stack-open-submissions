@@ -14,4 +14,10 @@ const addPerson = (body) => {
   return request.then((response) => response.data);
 };
 
-export default { getPeople, addPerson };
+const deletePerson = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+
+  return request;
+};
+
+export default { getPeople, addPerson, deletePerson };

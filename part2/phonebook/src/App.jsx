@@ -30,7 +30,7 @@ const App = () => {
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchEntry={searchEntry} />
+      <Persons persons={persons} searchEntry={searchEntry} setPersons={setPersons} />
     </>
   );
 };
