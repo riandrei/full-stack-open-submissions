@@ -1,4 +1,4 @@
-import axios from 'axios';
+import phonebookServices from './services/phonebook';
 
 const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, setPersons }) => {
   const handleNameChange = (e) => {
@@ -23,11 +23,11 @@ const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, set
       return;
     }
 
-    axios
-      .post('http://localhost:3001/persons', { name: newName, number: newNumber })
-      .then(({ data }) => setPersons(persons.concat(data)));
-    setNewName('');
-    setNewNumber('');
+    phonebookServices.addPerson({ name: newName, number: newNumber }).then((person) => {
+      setPersons(persons.concat(person));
+      setNewName('');
+      setNewNumber('');
+    });
   };
 
   return (
