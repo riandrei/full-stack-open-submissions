@@ -21,7 +21,6 @@ const deletePerson = (id) => {
 };
 
 const editPerson = (editedPerson) => {
-  console.log(editedPerson);
   const request = axios.put(`${baseUrl}/${editedPerson.id}`, editedPerson);
 
   return request.then((response) => response.data);

@@ -12,24 +12,24 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchEntry, setSearchEntry] = useState('');
-  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     phonebookServices.getPeople().then((people) => setPersons(people));
   }, []);
 
-  const handleNotification = (notificationMessage) => {
-    setNotificationMessage(notificationMessage);
+  const handleNotification = (notificationMessage, type) => {
+    setNotification({ notificationMessage, type });
 
     setTimeout(() => {
-      setNotificationMessage(null);
+      setNotification(null);
     }, 5000);
   };
 
   return (
     <>
       <h2>Phonebook</h2>
-      <Notification notificationMessage={notificationMessage} />
+      <Notification notification={notification} />
       <SearchForm searchEntry={searchEntry} setSearchEntry={setSearchEntry} />
       <h2>add a new</h2>
       <PersonForm
@@ -42,7 +42,12 @@ const App = () => {
         handleNotification={handleNotification}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchEntry={searchEntry} setPersons={setPersons} />
+      <Persons
+        persons={persons}
+        searchEntry={searchEntry}
+        setPersons={setPersons}
+        handleNotification={handleNotification}
+      />
     </>
   );
 };

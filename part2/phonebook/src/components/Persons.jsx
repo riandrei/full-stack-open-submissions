@@ -1,6 +1,6 @@
 import phonebookServices from '../services/phonebook';
 
-const Persons = ({ persons, searchEntry, setPersons }) => {
+const Persons = ({ persons, searchEntry, setPersons, handleNotification }) => {
   const filteredPersons = !searchEntry
     ? persons
     : persons.filter((person) => person.name.toLowerCase().includes(searchEntry.toLowerCase()));
@@ -12,9 +12,15 @@ const Persons = ({ persons, searchEntry, setPersons }) => {
       return;
     }
 
-    phonebookServices.deletePerson(id).then(() => {
-      setPersons(persons.filter((person) => person.id !== id));
-    });
+    phonebookServices
+      .deletePerson(id)
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      })
+      .catch((error) => {
+        handleNotification(`${name} has already been removed from the server`, `error`);
+        setPersons(persons.filter((person) => person.id !== id));
+      });
   };
 
   return (

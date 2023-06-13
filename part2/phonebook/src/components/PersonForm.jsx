@@ -25,18 +25,26 @@ const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, set
         return;
       }
 
-      phonebookServices.editPerson({ ...filteredPersons[0], number: newNumber }).then((editedPerson) => {
-        setPersons(persons.map((person) => (person.id === editedPerson.id ? editedPerson : person)));
-        setNewName('');
-        setNewNumber('');
-        handleNotification(`Replaced ${editedPerson.name}'s number`);
-      });
+      phonebookServices
+        .editPerson({ ...filteredPersons[0], number: newNumber })
+        .then((editedPerson) => {
+          setPersons(persons.map((person) => (person.id === editedPerson.id ? editedPerson : person)));
+          setNewName('');
+          setNewNumber('');
+          handleNotification(`Replaced ${editedPerson.name}'s number`, 'success');
+        })
+        .catch((error) => {
+          const { name, id } = JSON.parse(error.config.data);
+
+          handleNotification(`Information of ${name} has already been removed from the server`, `error`);
+          setPersons(persons.filter((person) => person.id !== id));
+        });
     } else {
       phonebookServices.addPerson({ name: newName, number: newNumber }).then((person) => {
         setPersons(persons.concat(person));
         setNewName('');
         setNewNumber('');
-        handleNotification(`Added ${person.name}`);
+        handleNotification(`Added ${person.name}`, `success`);
       });
     }
   };
