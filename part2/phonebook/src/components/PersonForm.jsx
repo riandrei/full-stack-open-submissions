@@ -1,6 +1,6 @@
-import phonebookServices from './services/phonebook';
+import phonebookServices from '../services/phonebook';
 
-const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, setPersons }) => {
+const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, setPersons, handleNotification }) => {
   const handleNameChange = (e) => {
     const newValue = e.target.value;
 
@@ -29,12 +29,14 @@ const PersonForm = ({ persons, newName, newNumber, setNewName, setNewNumber, set
         setPersons(persons.map((person) => (person.id === editedPerson.id ? editedPerson : person)));
         setNewName('');
         setNewNumber('');
+        handleNotification(`Replaced ${editedPerson.name}'s number`);
       });
     } else {
       phonebookServices.addPerson({ name: newName, number: newNumber }).then((person) => {
         setPersons(persons.concat(person));
         setNewName('');
         setNewNumber('');
+        handleNotification(`Added ${person.name}`);
       });
     }
   };

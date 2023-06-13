@@ -1,4 +1,4 @@
-import phonebookServices from './services/phonebook';
+import phonebookServices from '../services/phonebook';
 
 const Persons = ({ persons, searchEntry, setPersons }) => {
   const filteredPersons = !searchEntry
