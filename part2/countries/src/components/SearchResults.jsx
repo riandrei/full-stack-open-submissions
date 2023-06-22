@@ -1,10 +1,15 @@
-import CountryList from "./CountryList";
+import CountryPreview from "./CountryPreview";
 import CountryDetails from "./CountryDetails";
 
 const SearchResults = ({ filteredCountries }) => {
   const display = {
     fallback: <p>Too many matches, specify another filter</p>,
-    list: <CountryList filteredCountries={filteredCountries} />,
+    list: filteredCountries?.map((filteredCountry) => (
+      <CountryPreview
+        key={filteredCountry.name.common}
+        filteredCountry={filteredCountry}
+      />
+    )),
     details: (
       <CountryDetails
         filteredCountry={filteredCountries ? filteredCountries[0] : ""}
@@ -19,6 +24,6 @@ const SearchResults = ({ filteredCountries }) => {
       ? "list"
       : "fallback";
 
-  return <div>{display[mode]}</div>;
+  return <>{display[mode]}</>;
 };
 export default SearchResults;
