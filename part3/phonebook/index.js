@@ -29,6 +29,18 @@ app.get("/api/persons", (req, res) => {
   res.send(phonebookEntries);
 });
 
+app.get("/api/persons/:id", (req, res) => {
+  const filteredEntry = phonebookEntries.find(
+    (phonebookEntry) => phonebookEntry.id === Number(req.params.id)
+  );
+
+  if (filteredEntry) {
+    res.send(filteredEntry);
+  } else {
+    res.status(404).end();
+  }
+});
+
 app.get("/info", (req, res) => {
   const date = new Date();
 
