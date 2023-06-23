@@ -46,14 +46,26 @@ app.get("/api/persons/:id", (request, response) => {
 app.post("/api/persons", (request, response) => {
   const { name, number } = request.body;
 
-  const newEntry = {
-    id: Math.floor(Math.random() * 1000 + 1),
-    name,
-    number,
-  };
+  const isExisting = phonebookEntries.filter(
+    (phonebookEntry) => phonebookEntry.name === name
+  );
 
-  phonebookEntries = phonebookEntries.concat(newEntry);
-  response.send(newEntry);
+  if (!name || !number) {
+    response
+      .status(400)
+      .send({ error: `The name and number fields are required.` });
+  } else if (isExisting.length > 0) {
+    response.status(400).send({ error: `The name already exists.` });
+  } else {
+    const newEntry = {
+      id: Math.floor(Math.random() * 1000 + 1),
+      name,
+      number,
+    };
+
+    phonebookEntries = phonebookEntries.concat(newEntry);
+    response.send(newEntry);
+  }
 });
 
 app.delete("/api/persons/:id", (request, response) => {
