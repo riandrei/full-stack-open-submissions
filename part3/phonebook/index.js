@@ -2,6 +2,8 @@ const express = require("express");
 
 const app = express();
 
+app.use(express.json());
+
 let phonebookEntries = [
   {
     id: 1,
@@ -25,36 +27,49 @@ let phonebookEntries = [
   },
 ];
 
-app.get("/api/persons", (req, res) => {
-  res.send(phonebookEntries);
+app.get("/api/persons", (request, response) => {
+  response.send(phonebookEntries);
 });
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (request, response) => {
   const filteredEntry = phonebookEntries.find(
-    (phonebookEntry) => phonebookEntry.id === Number(req.params.id)
+    (phonebookEntry) => phonebookEntry.id === Number(request.params.id)
   );
 
   if (filteredEntry) {
-    res.send(filteredEntry);
+    response.send(filteredEntry);
   } else {
-    res.status(404).end();
+    response.status(404).end();
   }
 });
 
-app.delete("/api/persons/:id", (req, res) => {
-  phonebookEntries = phonebookEntries.filter(
-    (phonebookEntry) => phonebookEntry.id !== Number(req.params.id)
-  );
+app.post("/api/persons", (request, response) => {
+  const { name, number } = request.body;
 
-  res.status(204).end();
+  const newEntry = {
+    id: Math.floor(Math.random() * 1000 + 1),
+    name,
+    number,
+  };
+
+  phonebookEntries = phonebookEntries.concat(newEntry);
+  response.send(newEntry);
 });
 
-app.get("/info", (req, res) => {
+app.delete("/api/persons/:id", (request, response) => {
+  phonebookEntries = phonebookEntries.filter(
+    (phonebookEntry) => phonebookEntry.id !== Number(request.params.id)
+  );
+
+  response.status(204).end();
+});
+
+app.get("/info", (request, response) => {
   const date = new Date();
 
   const data = `<p>Phonebook has info for ${phonebookEntries.length} people</p><p>${date}</p>`;
 
-  res.send(data);
+  response.send(data);
 });
 
 const PORT = 3001;
