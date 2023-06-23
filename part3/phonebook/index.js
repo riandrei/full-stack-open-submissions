@@ -2,7 +2,7 @@ const express = require("express");
 
 const app = express();
 
-const phonebookEntries = [
+let phonebookEntries = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -39,6 +39,14 @@ app.get("/api/persons/:id", (req, res) => {
   } else {
     res.status(404).end();
   }
+});
+
+app.delete("/api/persons/:id", (req, res) => {
+  phonebookEntries = phonebookEntries.filter(
+    (phonebookEntry) => phonebookEntry.id !== Number(req.params.id)
+  );
+
+  res.status(204).end();
 });
 
 app.get("/info", (req, res) => {
