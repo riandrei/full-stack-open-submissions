@@ -1,4 +1,4 @@
-phonebook backend: https://phonebook-backend-test-9oy6.onrender.com
+Phonebook App: https://phonebook-backend-test-9oy6.onrender.com
 
 GET ALL ROUTE: https://phonebook-backend-test-9oy6.onrender.com/api/persons
 
